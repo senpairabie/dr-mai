@@ -1,0 +1,45 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.game-container {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #ff6f61;
+}
+
+.shapes-container, .targets-container {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.shape, .target {
+    font-size: 2em;
+    cursor: pointer;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+}
+
+.shape:hover, .target:hover {
+    background-color: #f0f0f0;
+}
+
+#message {
+    font-size: 1.2em;
+    color: #333;
+}

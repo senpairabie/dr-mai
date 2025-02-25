@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة توصيل الأشكال</title>
+    <style>
+    body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    }
+
+    .game-container {
+        text-align: center;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        color: #ff6f61;
+    }
+
+    .shapes-container, .targets-container {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px 0;
+    }
+
+    .shapes-container div:active{
+        background-color:greenyellow ;
+    }
+
+    .shape, .target {
+        font-size: 2em;
+        cursor: pointer;
+        padding: 10px; 
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        transition: background-color 0.3s;
+    }
+
+    .shape:hover, .target:hover {
+        background-color: #f0f0f0;
+    }
+
+    #message {
+        font-size: 1.2em;
+        color: #333;
+    }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>طابق كل صورتين ببعض </h1>
+        <div class="shapes-container">
+            <div class="shape" data-shape="circle">🔴</div>
+            <div class="shape" data-shape="square">🟥</div>
+            <div class="shape" data-shape="triangle">🔺</div>
+            <div class="shape" data-shape="star">⭐</div>
+        </div>
+        <div class="targets-container">
+            <div class="target" data-shape="circle">🔴</div>
+            <div class="target" data-shape="star">⭐</div>
+            <div class="target" data-shape="triangle">🔺</div>
+            <div class="target" data-shape="square">🟥</div>
+
+        </div>
+        <p id="message"></p>
+    </div>
+
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        const shapes = document.querySelectorAll('.shape');
+        const targets = document.querySelectorAll('.target');
+        const message = document.getElementById('message');
+        let selectedShape = null;
+
+        shapes.forEach(shape => {
+            shape.addEventListener('click', () => {
+                selectedShape = shape;
+                message.textContent = `لقد اخترت ${shape.getAttribute('data-shape')}`;
+            });
+        });
+
+        targets.forEach(target => {
+            target.addEventListener('click', () => {
+                if (selectedShape && selectedShape.getAttribute('data-shape') === target.getAttribute('data-shape')) {
+                    message.textContent = 'تهانينا! لقد قمت بالتوصيل بشكل صحيح.';
+                    selectedShape.style.backgroundColor = '#aaffaa';
+                    target.style.backgroundColor = '#aaffaa';
+                    selectedShape = null;
+                } else {
+                    message.textContent = 'محاولة خاطئة، حاول مرة أخرى!';
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>

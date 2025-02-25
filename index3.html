@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة تذكر النجوم</title>
+    <style>
+        body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.game-container {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #ff6f61;
+}
+
+.stars-container {
+    font-size: 2em;
+    margin: 20px 0;
+}
+
+.options-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.option {
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.option:hover {
+    background-color: #ff4a3d;
+}
+
+#message {
+    font-size: 1.2em;
+    color: #333;
+    margin-top: 20px;
+}
+
+#resetButton {
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 20px;
+}
+
+#resetButton:hover {
+    background-color: #ff4a3d;
+}
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>كم عدد النجوم الموجودة  </h1>
+        <div id="starsContainer" class="stars-container"></div>
+        <div id="optionsContainer" class="options-container" style="display: none;">
+            <button class="option">2</button>
+            <button class="option">3</button>
+            <button class="option">4</button>
+            <button class="option">5</button>
+        </div>
+        <p id="message"></p>
+        <button id="resetButton" style="display: none;">إعادة المحاولة</button>
+    </div>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const starsContainer = document.getElementById('starsContainer');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const message = document.getElementById('message');
+    const resetButton = document.getElementById('resetButton');
+    let correctAnswer = 0;
+
+    function startGame() {
+        // إخفاء الخيارات وزر الإعادة
+        optionsContainer.style.display = 'none';
+        resetButton.style.display = 'none';
+        message.textContent = '';
+
+        // توليد عدد عشوائي من النجوم (من 2 إلى 5)
+        correctAnswer = Math.floor(Math.random() * 4) + 2;
+        starsContainer.innerHTML = '⭐'.repeat(correctAnswer);
+
+        // إخفاء النجوم بعد 6 ثوانٍ
+        setTimeout(() => {
+            starsContainer.innerHTML = '';
+            optionsContainer.style.display = 'flex';
+        }, 6000); // 6 ثوانٍ
+    }
+
+    // تفاعل النقر على الخيارات
+    optionsContainer.querySelectorAll('.option').forEach(option => {
+        option.addEventListener('click', () => {
+            const selectedAnswer = parseInt(option.textContent);
+            if (selectedAnswer === correctAnswer) {
+                message.textContent = 'تهانينا! الإجابة صحيحة.';
+                // الانتقال إلى صفحة index4.html بعد الإجابة الصحيحة
+                setTimeout(() => {
+                    window.location.href = 'index4.html';
+                }, 2000); // الانتقال بعد 2 ثانية
+            } else {
+                message.textContent = `للأسف، الإجابة الصحيحة هي ${correctAnswer}.`;
+                resetButton.style.display = 'block';
+            }
+        });
+    });
+
+    // إعادة تعيين اللعبة
+    resetButton.addEventListener('click', startGame);
+
+    // بدء اللعبة عند تحميل الصفحة
+    startGame();
+});
+    </script>
+</body>
+</html>

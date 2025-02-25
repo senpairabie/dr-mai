@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأسئلة البصرية</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px; /* تحديد عرض اللعبة */
+        }
+
+        h1 {
+            color: #ff6f61;
+        }
+
+        #question-container {
+            margin: 20px 0;
+        }
+
+        #main-image-container img {
+            width: 100%; /* الصورة تأخذ عرض اللعبة بالكامل */
+            height: auto;
+            border-radius: 10px;
+        }
+
+        #options-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .option {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .option:hover {
+            transform: scale(1.1);
+        }
+
+        #next-button {
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+        }
+
+        #next-button:hover {
+            background-color: #ff4a3d;
+        }
+
+        #message {
+            font-size: 1.2em;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>الأسئلة البصرية</h1>
+        <div id="question-container">
+            <h2 id="question-title"></h2>
+            <div id="main-image-container" class="hidden">
+                <img id="main-image" src="" alt="الصورة الرئيسية">
+            </div>
+            <div id="options-container" class="hidden">
+                <img class="option" src="" alt="">
+                <img class="option" src="" alt="">
+                <img class="option" src="" alt="">
+            </div>
+            <button id="next-button" class="hidden">التالي</button>
+            <p id="message"></p>
+        </div>
+    </div>
+    <script>
+const questionContainer = document.getElementById('question-container');
+const questionTitle = document.getElementById('question-title');
+const mainImageContainer = document.getElementById('main-image-container');
+const mainImage = document.getElementById('main-image');
+const optionsContainer = document.getElementById('options-container');
+const nextButton = document.getElementById('next-button');
+const message = document.getElementById('message');
+const options = document.querySelectorAll('.option');
+
+let currentLevel = 0;
+let score = 0;
+const levels = [
+    {
+        title: "السؤال 1: اضغط على صورة الحيوان التي ظهرت",
+        main: 'images/image1.jpg',
+        options: ['images/image1.jpg', 'images/image2.jpg', 'images/image3.jpg'],
+        correct: 0
+    },
+    {
+        title: "السؤال 2: اضغط على الفاكهة التي ظهرت في الصورة",
+        main: 'images/image5.jpg',
+        options: ['images/image4.jpg', 'images/image5.jpg', 'images/image6.jpg'],
+        correct: 1
+    },
+    {
+        title: "السؤال 3: اضغط على الأداة التي ظهرت في الصورة",
+        main: 'images/image7.jpg',
+        options: ['images/image7.jpg', 'images/image8.jpg', 'images/image9.jpg'],
+        correct: 0
+    },
+    // إضافة المزيد من الأسئلة هنا
+];
+
+function loadLevel() {
+    if (currentLevel < levels.length) {
+        const level = levels[currentLevel];
+        questionTitle.textContent = level.title;
+        mainImage.src = level.main;
+        mainImageContainer.classList.remove('hidden');
+        optionsContainer.classList.add('hidden');
+        nextButton.classList.add('hidden');
+        message.textContent = '';
+
+        setTimeout(() => {
+            mainImageContainer.classList.add('hidden');
+            optionsContainer.classList.remove('hidden');
+            level.options.forEach((src, index) => {
+                options[index].src = src;
+            });
+        }, 5000); // عرض الصورة الرئيسية لمدة 5 ثوانٍ
+    } else {
+        message.textContent = `انتهت اللعبة! مجموع نقاطك: ${score}/${levels.length}`;
+        nextButton.textContent = 'التالي'; // تغيير نص الزر إلى "التالي"
+        nextButton.classList.remove('hidden');
+    }
+}
+
+function checkAnswer(selectedIndex) {
+    const level = levels[currentLevel];
+    if (selectedIndex === level.correct) {
+        score++;
+        message.textContent = 'إجابة صحيحة!';
+    } else {
+        message.textContent = 'إجابة خاطئة!';
+    }
+
+    currentLevel++;
+    nextButton.classList.remove('hidden');
+}
+
+nextButton.addEventListener('click', () => {
+    if (currentLevel < levels.length) {
+        loadLevel();
+    } else {
+        window.location.href = 'index2.html';
+    }
+});
+
+options.forEach((option, index) => {
+    option.addEventListener('click', () => checkAnswer(index));
+});
+
+// بدء اللعبة
+loadLevel();
+    </script>
+</body>
+</html>
